@@ -1,0 +1,43 @@
+<idea-plugin>
+    <id>com.shenhua.idea.plugin.processviewer</id>
+    <name>Android Process Viewer</name>
+    <version>1.0</version>
+    <vendor email="shenhuanet@126.com" url="http://www.shenhuanet.com">ShenhuaTech</vendor>
+
+    <description><![CDATA[
+      Quickly to get the running process and background service on Android platfrom.<br>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      First release.<br>
+    ]]>
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="145.0"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <toolWindow canCloseContents="false" anchor="bottom"
+                    id="ProcessViewer" icon="/icons/icon_logo_13x13.png"
+                    factoryClass="com.shenhua.idea.plugin.processviewer.factory.ProcessViewerFactory"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <group id="ProcessViewer.LeftGroup" text="LeftGroup" popup="false">
+            <action id="ProcessViewer.RefreshAction" text="RefreshAction" description="Refresh datas."
+                    icon="/icons/icon_refresh_13x13.png"
+                    class="com.shenhua.idea.plugin.processviewer.actions.RefreshAction">
+                <keyboard-shortcut keymap="$defaule" first-keystroke="shift ctrl alt F"/>
+            </action>
+        </group>
+    </actions>
+
+</idea-plugin>
