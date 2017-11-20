@@ -8,5 +8,8 @@ package com.shenhua.idea.plugin.processviewer.etc
 class Constans {
 
     static final String LEFT_GROUP_ID = "ProcessViewer.LeftGroup"
+    static final String LEFT_TOOLBAR_ID = "ProcessViewer.LeftToolbar"
     static final String ACTION_ID_REFRESH = "ProcessViewer.RefreshAction"
+    static final String ACTION_ID_CLOSE = "ProcessViewer.Close"
+    static final String ACTION_ID_HELP = "ProcessViewer.Help"
 }

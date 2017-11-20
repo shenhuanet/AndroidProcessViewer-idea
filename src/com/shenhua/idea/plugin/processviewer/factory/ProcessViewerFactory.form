@@ -8,6 +8,18 @@
       <background color="-1"/>
     </properties>
     <border type="none"/>
-    <children/>
+    <children>
+      <toolbar id="1d3ec" binding="mLeftToolbar">
+        <constraints border-constraint="West"/>
+        <properties>
+          <borderPainted value="false"/>
+          <enabled value="true"/>
+          <floatable value="false"/>
+          <orientation value="1"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </toolbar>
+    </children>
   </grid>
 </form>

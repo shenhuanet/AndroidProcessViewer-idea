@@ -32,10 +32,21 @@
     <actions>
         <!-- Add your actions here -->
         <group id="ProcessViewer.LeftGroup" text="LeftGroup" popup="false">
-            <action id="ProcessViewer.RefreshAction" text="RefreshAction" description="Refresh datas."
+            <action id="ProcessViewer.RefreshAction" text="RefreshAction" description="Refresh datas"
                     icon="/icons/icon_refresh_13x13.png"
                     class="com.shenhua.idea.plugin.processviewer.actions.RefreshAction">
                 <keyboard-shortcut keymap="$defaule" first-keystroke="shift ctrl alt F"/>
+            </action>
+
+            <action id="ProcessViewer.Close" text="CloseAction" description="Close window"
+                    icon="/actions/cancel.png"
+                    class="com.shenhua.idea.plugin.processviewer.actions.CloseAction">
+                <keyboard-shortcut keymap="$defaule" first-keystroke="shift ctrl alt C"/>
+            </action>
+
+            <action id="ProcessViewer.Help" text="HelpAction" description="Show the ProcessViewer plugin help"
+                    icon="/actions/help.png"
+                    class="com.shenhua.idea.plugin.processviewer.actions.HelpAction">
             </action>
         </group>
     </actions>
