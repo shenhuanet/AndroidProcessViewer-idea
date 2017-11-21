@@ -9,7 +9,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
  * @author shenhua
  *         Email shenhuanet@126.com
  */
-class CloseAction extends AnAction {
+class StopProcessAction extends AnAction {
     @Override
     void actionPerformed(AnActionEvent anActionEvent) {
 

@@ -12,8 +12,6 @@ import com.shenhua.idea.plugin.processviewer.etc.Constans
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*
-import javax.swing.border.EmptyBorder
-import javax.swing.border.LineBorder;
 
 /**
  * Created by shenhua on 2017-11-20-0020.
@@ -25,16 +23,27 @@ class ProcessViewerFactory implements ToolWindowFactory {
 
     private JPanel mPanel
     private JToolBar mLeftToolbar
+    private JToolBar mConnectToolbar
+    private JComboBox mDevicesComboBox
+    private JTextField mFilterTextField
+    private JTable mTable
 
     @Override
     void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+        // add content window
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance()
         Content content = contentFactory.createContent(mPanel, "", false)
         toolWindow.getContentManager().addContent(content)
 
-        ActionGroup actionGroup = ActionManager.instance.getAction(Constans.LEFT_GROUP_ID) as ActionGroup
-        ActionToolbar leftToolbar = ActionManager.instance.createActionToolbar(Constans.LEFT_TOOLBAR_ID, actionGroup, false)
+        // add left toolbar
+        ActionGroup leftGroup = ActionManager.instance.getAction(Constans.LEFT_GROUP_ID) as ActionGroup
+        ActionToolbar leftToolbar = ActionManager.instance.createActionToolbar(Constans.LEFT_TOOLBAR_ID, leftGroup, false)
         mLeftToolbar.add(leftToolbar.getComponent())
+
+        // add top toolbar
+        ActionGroup topGroup = ActionManager.instance.getAction(Constans.TOP_GROUP_ID) as ActionGroup
+        ActionToolbar topToolbar = ActionManager.instance.createActionToolbar(Constans.TOP_TOOLBAR_ID, topGroup, false)
+        mConnectToolbar.add(topToolbar.getComponent())
 
     }
 }

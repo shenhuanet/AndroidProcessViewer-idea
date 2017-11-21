@@ -7,9 +7,19 @@ package com.shenhua.idea.plugin.processviewer.etc
  */
 class Constans {
 
+    /**
+     * LEFT
+     */
     static final String LEFT_GROUP_ID = "ProcessViewer.LeftGroup"
     static final String LEFT_TOOLBAR_ID = "ProcessViewer.LeftToolbar"
     static final String ACTION_ID_REFRESH = "ProcessViewer.RefreshAction"
-    static final String ACTION_ID_CLOSE = "ProcessViewer.Close"
-    static final String ACTION_ID_HELP = "ProcessViewer.Help"
+    static final String ACTION_ID_STOP = "ProcessViewer.StopAction"
+    static final String ACTION_ID_CLEAN = "ProcessViewer.CleanAction"
+    static final String ACTION_ID_SETTINGS = "ProcessViewer.SettingsAction"
+    static final String ACTION_ID_HELP = "ProcessViewer.HelpAction"
+    /**
+     * TOP
+     */
+    static final String TOP_GROUP_ID = "ProcessViewer.TopGroup"
+    static final String TOP_TOOLBAR_ID = "ProcessViewer.TopToolbar"
 }
