@@ -71,10 +71,7 @@
                 <properties>
                   <alignmentX value="0.0"/>
                   <alignmentY value="0.0"/>
-                  <model>
-                    <item value="device-1"/>
-                    <item value="device-2"/>
-                  </model>
+                  <model/>
                 </properties>
               </component>
               <toolbar id="a4c72" binding="mConnectToolbar">
