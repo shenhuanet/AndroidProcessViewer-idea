@@ -1,6 +1,6 @@
 # Android Process Viewer
 [![Build Status](https://img.shields.io/badge/build-developing-yellowgreen.svg)](#)
-[![License2.0](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![License2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 ![](https://github.com/shenhuanet/AndroidProcessViewer-groovy/blob/master/resources/icons/icon_logo_100x100.png)
 
