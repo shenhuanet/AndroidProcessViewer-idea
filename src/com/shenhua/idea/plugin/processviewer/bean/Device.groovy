@@ -7,13 +7,32 @@ package com.shenhua.idea.plugin.processviewer.bean
  */
 class Device {
 
-    String DisplayName
-    String name
+    String deviceName
+    String modelName
+    String productName
+    String ip
     boolean isOnline
 
-    Device(String displayName, boolean isOnline) {
-        DisplayName = displayName
+    Device(String deviceName, boolean isOnline) {
+        this.deviceName = deviceName
         this.isOnline = isOnline
+    }
+
+    @Override
+    boolean equals(Object obj) {
+        if (this == obj) {
+            return true
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false
+        }
+        Device device = obj as Device
+        return ip.equals(device.ip)
+    }
+
+    @Override
+    int hashCode() {
+        return ip.hashCode()
     }
 
     @Override
@@ -22,6 +41,6 @@ class Device {
         if (!isOnline) {
             suf = " - (offline)"
         }
-        return getDisplayName() + suf
+        return getDeviceName() + " [" + getIp() + "] " + suf
     }
 }
