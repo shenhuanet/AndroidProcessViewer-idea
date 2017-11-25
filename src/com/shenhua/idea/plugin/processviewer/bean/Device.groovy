@@ -16,30 +16,6 @@ class Device {
         this.isOnline = isOnline
     }
 
-    String getDisplayName() {
-        return DisplayName
-    }
-
-    void setDisplayName(String displayName) {
-        DisplayName = displayName
-    }
-
-    String getName() {
-        return name
-    }
-
-    void setName(String name) {
-        this.name = name
-    }
-
-    boolean getIsOnline() {
-        return isOnline
-    }
-
-    void setIsOnline(boolean isOnline) {
-        this.isOnline = isOnline
-    }
-
     @Override
     String toString() {
         String suf = ""
