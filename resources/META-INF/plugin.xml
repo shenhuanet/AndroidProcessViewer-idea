@@ -18,9 +18,9 @@
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
-    <!-- uncomment to enable plugin in all products
+    <!-- uncomment to enable plugin in all products -->
     <depends>com.intellij.modules.lang</depends>
-    -->
+    <depends>org.jetbrains.android</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
@@ -39,11 +39,11 @@
             </action>
             <action id="ProcessViewer.StopAction" text="StopAction" description="Stop the process"
                     icon="/actions/suspend.png"
-                    class="com.shenhua.idea.plugin.processviewer.actions.CleanDatasAction">
+                    class="com.shenhua.idea.plugin.processviewer.actions.StopProcessAction">
             </action>
             <action id="ProcessViewer.Clean" text="CleanAction" description="Clean the showing datas"
                     icon="/actions/gc.png"
-                    class="com.shenhua.idea.plugin.processviewer.actions.StopProcessAction">
+                    class="com.shenhua.idea.plugin.processviewer.actions.CleanDatasAction">
                 <keyboard-shortcut keymap="$defaule" first-keystroke="shift ctrl alt C"/>
             </action>
 

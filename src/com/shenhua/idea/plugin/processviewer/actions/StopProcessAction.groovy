@@ -10,8 +10,9 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
  *         Email shenhuanet@126.com
  */
 class StopProcessAction extends AnAction {
+
     @Override
     void actionPerformed(AnActionEvent anActionEvent) {
-
+        println(anActionEvent.project.basePath)
     }
 }

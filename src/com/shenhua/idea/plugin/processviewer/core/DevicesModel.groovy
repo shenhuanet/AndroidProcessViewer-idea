@@ -12,13 +12,5 @@ class DevicesModel {
     ArrayList<Device> devices = new ArrayList<>()
 
     void toGetDevices() {
-        devices.add(new Device("aaaa", true))
-        devices.add(new Device("bbbbbbb", false))
-        devices.add(new Device("cc", false))
-        devices.add(new Device("ddddd", true))
-    }
-
-    ArrayList<Device> getDevices() {
-        return devices
     }
 }

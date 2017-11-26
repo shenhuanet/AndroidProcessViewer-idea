@@ -7,24 +7,40 @@ package com.shenhua.idea.plugin.processviewer.cmd
  */
 class CommandLine {
 
-    String executeCommand(String command) {
-        System.out.println("command: " + command);
-        Process process;
-        StringBuilder stringBuilder = new StringBuilder();
+    static String executeCommand(String command) {
+        println("command:${command}")
+        StringBuilder stringBuilder = new StringBuilder()
         try {
-            process = Runtime.getRuntime().exec(command);
-            process.waitFor();
-            InputStreamReader is = new InputStreamReader(process.getInputStream());
-            BufferedReader reader = new BufferedReader(is);
-            String line;
+            Process process = Runtime.runtime.exec(command)
+            process.waitFor()
+            InputStreamReader is = new InputStreamReader(process.getInputStream())
+            BufferedReader reader = new BufferedReader(is)
+            String line
             while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line + "\n");
+                stringBuilder.append("${line}\n")
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            e.printStackTrace()
+            null
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace()
+            null
         }
-        return stringBuilder.toString();
+        stringBuilder.toString()
+    }
+
+    static String testExe() {
+        StringBuilder stringBuilder = new StringBuilder()
+        ProcessBuilder pb = new ProcessBuilder(
+                "adb path", "devices", "-l")
+        Process process = pb.start()
+        process.waitFor()
+        InputStreamReader is = new InputStreamReader(process.getInputStream())
+        BufferedReader reader = new BufferedReader(is)
+        String line
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append("${line}\n")
+        }
+        stringBuilder.toString()
     }
 }

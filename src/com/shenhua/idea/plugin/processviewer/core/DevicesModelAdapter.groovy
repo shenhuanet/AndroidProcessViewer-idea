@@ -12,7 +12,7 @@ import javax.swing.event.ListDataListener
  */
 class DevicesModelAdapter implements ComboBoxModel<Device> {
 
-    private ArrayList<Device> devices;
+    private ArrayList<Device> devices
     private Device device
 
     DevicesModelAdapter(ArrayList<Device> devices) {
@@ -26,17 +26,17 @@ class DevicesModelAdapter implements ComboBoxModel<Device> {
 
     @Override
     Object getSelectedItem() {
-        return device == null ? devices.get(0) : device
+        device == null ? devices.get(0) : device
     }
 
     @Override
     int getSize() {
-        return devices == null ? 0 : devices.size()
+        devices == null ? 0 : devices.size()
     }
 
     @Override
     Device getElementAt(int index) {
-        return devices.get(index)
+        devices.get(index)
     }
 
     @Override

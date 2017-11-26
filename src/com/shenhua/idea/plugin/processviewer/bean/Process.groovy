@@ -17,6 +17,6 @@ class Process {
 
     @Override
     String toString() {
-        return "ppid: " + ppid + " name: " + name
+        "ppid:${ppid} name:${name}"
     }
 }

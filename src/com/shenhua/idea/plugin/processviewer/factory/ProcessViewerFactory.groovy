@@ -55,10 +55,10 @@ class ProcessViewerFactory implements ToolWindowFactory {
         // add listener
 
 
-        DevicesModel devicesModel = new DevicesModel();
-        devicesModel.toGetDevices()
-        DevicesModelAdapter model = new DevicesModelAdapter(devicesModel.getDevices())
-        mDevicesComboBox.model = model
+//        DevicesModel devicesModel = new DevicesModel()
+//        devicesModel.toGetDevices()
+//        DevicesModelAdapter model = new DevicesModelAdapter(devicesModel.getDevices())
+//        mDevicesComboBox.model = model
 
     }
 }
