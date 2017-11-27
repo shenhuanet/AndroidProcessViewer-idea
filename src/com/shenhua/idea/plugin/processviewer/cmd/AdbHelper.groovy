@@ -2,6 +2,7 @@ package com.shenhua.idea.plugin.processviewer.cmd
 
 import com.intellij.openapi.project.Project
 import com.shenhua.idea.plugin.processviewer.bean.Device
+import com.shenhua.idea.plugin.processviewer.bean.Process
 import com.shenhua.idea.plugin.processviewer.etc.Constans
 import org.apache.http.util.TextUtils
 import org.jetbrains.android.sdk.AndroidSdkUtils
@@ -31,8 +32,13 @@ class AdbHelper {
     }
 
     ArrayList<Device> getDevices() {
-        String adbDevicesOutput = commandLine.executeCommand(getAdbCommand(), "devices", "-l")
-        adbParser.parseGetDevicesOutput(adbDevicesOutput)
+        String adbOutput = commandLine.executeCommand(getAdbCommand(), "devices", "-l")
+        adbParser.parseGetDevicesOutput(adbOutput)
+    }
+
+    ArrayList<Process> getProcess(String deviceId) {
+        String adbOutput = commandLine.executeShellCommand(getAdbCommand() + " -s " + deviceId + " shell " + "ps")
+        adbParser.parseProcessList(adbOutput)
     }
 
     private void enableTCPCommand() {

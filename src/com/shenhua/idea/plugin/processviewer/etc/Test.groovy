@@ -9,19 +9,30 @@ import com.shenhua.idea.plugin.processviewer.cmd.DeviceAdbParser;
  * @author shenhua
  *         Email shenhuanet@126.com
  */
-"23NB979FIT"
-String line = "N2F4C15C08046582       device usb:339738624X product:ALE-UL00 model:ALE_UL00 device:hwALE-H"
-Device device = new Device()
-device.id = DeviceAdbParser.parseId(line)
-println("id:" + device.id)
-device.usb = DeviceAdbParser.parseUsb(line)
-println("usb:" + device.usb)
-device.product = DeviceAdbParser.parseProduct(line)
-println("product:" + device.product)
-device.model = DeviceAdbParser.parseModel(line)
-println("model:" + device.model)
-device.name = DeviceAdbParser.parseDeviceName(line)
-println("name:" + device.name)
+String result = "USER      PID   PPID  VSIZE  RSS   WCHAN              PC  NAME\n" +
+        "root      1     0     1944   948   SyS_epoll_ 0000000000 S /init\n" +
+        "root      2     0     0      0       kthreadd 0000000000 S kthreadd\n" +
+        "root      3     2     0      0     smpboot_th 0000000000 S ksoftirqd/0\n" +
+        "root      5     2     0      0     worker_thr 0000000000 S kworker/0:0H\n" +
+        "root      7     2     0      0     smpboot_th 0000000000 S migration/0\n" +
+        "root      8     2     0      0     rcu_gp_kth 0000000000 S rcu_preempt\n" +
+        "root      9     2     0      0     rcu_gp_kth 0000000000 S rcu_bh\n" +
+        "root      10    2     0      0     rcu_gp_kth 0000000000 S rcu_sched\n" +
+        "root      11    2     0      0     smpboot_th 0000000000 S migration/1" +
+        "root      4570  2     0      0     worker_thr 0000000000 S kworker/u17:1\n" +
+        "system    5008  2491  1558060 34620 SyS_epoll_ 0000000000 S com.huawei.lcagent\n" +
+        "u0_a6     5026  2491  1713744 55796 SyS_epoll_ 0000000000 S com.google.android.gms.persistent\n" +
+        "u0_a6     5400  2491  1823508 49572 SyS_epoll_ 0000000000 S com.google.android.gms\n" +
+        "u0_a10    5880  2492  1682680 25516 SyS_epoll_ 0000000000 S com.android.gallery3d\n" +
+        "radio     5897  2491  1548944 28720 SyS_epoll_ 0000000000 S com.huawei.android.ds"
 
-println("-----" + device)
-
+String[] lines = result.split("\n")
+String line
+String[] pre
+for (int i = 1; i < lines.length; i++) {
+    if (lines[i].contains(".")) {
+        line = lines[i].replaceAll("\\s+", " ")
+        pre = line.split(" ")
+        println(pre[0])
+    }
+}

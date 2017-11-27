@@ -7,13 +7,13 @@ package com.shenhua.idea.plugin.processviewer.bean
  */
 class Process {
 
-    String user
-    String pid
-    String ppid
-    String vSize
-    String rss
-    String wChan
-    String name
+    String user // 0
+    String pid // 1
+    String ppid // 2
+    String vSize // 3
+    String rss // 4
+    String wChan // 5
+    String name // 8
 
     @Override
     String toString() {

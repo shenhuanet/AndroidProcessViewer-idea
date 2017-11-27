@@ -2,15 +2,17 @@ package com.shenhua.idea.plugin.processviewer.factory
 
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.ActionManager
-import com.intellij.openapi.actionSystem.ActionToolbar;
+import com.intellij.openapi.actionSystem.ActionToolbar
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory
-import com.shenhua.idea.plugin.processviewer.actions.RefreshDevicesAction
 import com.shenhua.idea.plugin.processviewer.bean.Device
-import com.shenhua.idea.plugin.processviewer.bean.Process
+import com.shenhua.idea.plugin.processviewer.cmd.AdbHelper
+import com.shenhua.idea.plugin.processviewer.cmd.CommandLine
+import com.shenhua.idea.plugin.processviewer.cmd.DeviceAdbParser
 import com.shenhua.idea.plugin.processviewer.core.DevicesModel
 import com.shenhua.idea.plugin.processviewer.core.DevicesModelAdapter
 import com.shenhua.idea.plugin.processviewer.etc.Constans
@@ -19,8 +21,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
-import java.awt.event.ItemEvent
-import java.awt.event.ItemListener
 
 /**
  * Created by shenhua on 2017-11-20-0020.
@@ -36,6 +36,8 @@ class ProcessViewerFactory implements ToolWindowFactory {
     private JComboBox mDevicesComboBox
     private JTextField mFilterTextField
     private JTable mTable
+    private int mCurrentDevice = 0;
+    private ArrayList<Device> mDevices = new ArrayList<>();
 
     @Override
     void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
@@ -54,8 +56,6 @@ class ProcessViewerFactory implements ToolWindowFactory {
         ActionToolbar topToolbar = ActionManager.instance.createActionToolbar(Constans.TOP_TOOLBAR_ID, topGroup, false)
         mConnectToolbar.add(topToolbar.getComponent())
 
-        // add listener
-
         // showDatas
         toGetDeviceList(project)
     }
@@ -66,9 +66,34 @@ class ProcessViewerFactory implements ToolWindowFactory {
 
             @Override
             void onObtainDevices(ArrayList<Device> devices) {
+                mDevices.clear()
+                mDevices = devices
                 DevicesModelAdapter model = new DevicesModelAdapter(devices)
                 mDevicesComboBox.model = model
+                // add listener
+                mDevicesComboBox.addActionListener(new ActionListener() {
+                    @Override
+                    void actionPerformed(ActionEvent e) {
+                        if (mCurrentDevice == mDevicesComboBox.getSelectedIndex()) {
+                            return
+                        }
+                        mCurrentDevice = mDevicesComboBox.getSelectedIndex()
+                        Device device = mDevices.get(mCurrentDevice)
+                        println(Constans.TAG + "current devices:" + device.id)
+                    }
+                })
+                toGetDeviceProcess(project)
             }
         })
+    }
+
+    void toGetDeviceProcess(Project project) {
+//        CommandLine commandline = new CommandLine()
+//        DeviceAdbParser parser = new DeviceAdbParser()
+//        ApplicationManager.getApplication().executeOnPooledThread({
+//            AdbHelper adbHelper = new AdbHelper(project, commandline, parser)
+//            String result = adbHelper.getProcess(mDevices.get(mCurrentDevice).id)
+//            println(Constans.TAG + "result:::::" + result)
+//        })
     }
 }

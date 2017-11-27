@@ -1,6 +1,7 @@
 package com.shenhua.idea.plugin.processviewer.cmd
 
 import com.shenhua.idea.plugin.processviewer.bean.Device
+import com.shenhua.idea.plugin.processviewer.bean.Process
 import com.shenhua.idea.plugin.processviewer.etc.Constans
 
 import java.util.regex.Matcher
@@ -97,6 +98,23 @@ class DeviceAdbParser {
             end = line.length()
         }
         line.substring(0, end).trim()
+    }
+
+    static ArrayList<Process> parseProcessList(String result) {
+        String[] lines = result.split("\n\n")
+        ArrayList<Process> processes = new ArrayList<>();
+        String line
+        String[] pre
+        for (int i = 1; i < lines.length; i++) {
+            if (lines[i].contains(".")) {
+                line = lines[i].replaceAll("\\s+", " ")
+                pre = line.split(" ")
+                Process process = new Process("user": pre[0], "pid": pre[1], "ppid": pre[2], "vSize": pre[3],
+                        "rss": pre[4], "wChan": pre[5], "name": pre[8])
+                processes.add(process)
+            }
+        }
+        processes
     }
 
     String parseGetDeviceIp(String ipInfo) {
