@@ -1,5 +1,6 @@
 package com.shenhua.idea.plugin.processviewer.cmd
 
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.shenhua.idea.plugin.processviewer.bean.Device
 import com.shenhua.idea.plugin.processviewer.bean.Process
@@ -15,74 +16,31 @@ import org.jetbrains.android.sdk.AndroidSdkUtils
  */
 class AdbHelper {
 
-    static final String TCPIP_PORT = "5555"
-    private CommandLine commandLine
-    private DeviceAdbParser adbParser
-    private Project project
-
-    AdbHelper(Project project, CommandLine commandLine, DeviceAdbParser adbParser) {
-        this.project = project
-        this.commandLine = commandLine
-        this.adbParser = adbParser
-    }
-
     static boolean isInstalled() {
         // TODO ClassCastException: com.android.tools.idea.sdk.AndroidSdks cannot be cast to com.android.tools.idea.sdk.AndroidSdks
         AndroidSdkUtils.isAndroidSdkAvailable()
     }
 
-    ArrayList<Device> getDevices() {
-        String adbOutput = commandLine.executeCommand(getAdbCommand(), "devices", "-l")
+    ArrayList<Device> getDevices(Project project) {
+        CommandLine commandLine = new CommandLine()
+        DeviceAdbParser adbParser = new DeviceAdbParser()
+        String adbOutput = commandLine.executeCommand(getAdbCommand(project), "devices", "-l")
         adbParser.parseGetDevicesOutput(adbOutput)
     }
 
-    ArrayList<Process> getProcess(String deviceId) {
-        String adbOutput = commandLine.executeShellCommand(getAdbCommand() + " -s " + deviceId + " shell " + "ps")
+    ArrayList<Process> getProcess(Project project, String deviceId) {
+        CommandLine commandLine = new CommandLine()
+        DeviceAdbParser adbParser = new DeviceAdbParser()
+        String adbOutput = commandLine.executeShellCommand(getAdbCommand(project) + " -s " + deviceId + " shell " + "ps")
         adbParser.parseProcessList(adbOutput)
     }
 
-    private void enableTCPCommand() {
-        if (!checkTCPCommandExecuted()) {
-            String enableTCPCommand = getCommand("tcpip " + TCPIP_PORT)
-            commandLine.executeCommand(enableTCPCommand)
-        }
-    }
-
-    private boolean checkTCPCommandExecuted() {
-        String getPropCommand = getCommand("adb shell getprop | grep adb")
-        String getPropOutput = commandLine.executeCommand(getPropCommand)
-        String adbTcpPort = adbParser.parseAdbServiceTcpPort(getPropOutput)
-        TCPIP_PORT == (adbTcpPort)
-    }
-
-    private boolean connectDevice(String deviceIp) {
-        String enableTCPCommand = getCommand("tcpip 5555")
-        commandLine.executeCommand(enableTCPCommand)
-        String connectDeviceCommand = getCommand("connect " + deviceIp)
-        String connectOutput = commandLine.executeCommand(connectDeviceCommand)
-        connectOutput.contains("connected")
-    }
-
-    private String getAdbPath() {
-        String adbPath = ""
-        File adbFile = AndroidSdkUtils.getAdb(project)
-        if (adbFile != null) {
-            println(Constans.TAG + "adb file not null.")
-            adbPath = adbFile.getAbsolutePath()
-        }
-        println("${Constans.TAG}adbPath: ${adbPath}")
-        adbPath
-    }
-
-    private String getAdbCommand() {
-        TextUtils.isEmpty(getAdbPath()) ?
-                "adb" :
-                "${getAdbPath()}adb"
-    }
-
-    private String getCommand(String... command) {
-        TextUtils.isEmpty(getAdbPath()) ?
-                "adb ${command}" :
-                "${getAdbPath()}adb ${command}"
+    private synchronized String getAdbCommand(Project project) {
+//        File adbFile = AndroidSdkUtils.getAdb(project)
+//        if (adbFile != null) {
+//            println(Constans.TAG + "adb file not null.")
+//            return "${adbFile.getAbsolutePath()}adb"
+//        }
+        return "/Users/shenhua/Library/Android/sdk/platform-tools/adb"
     }
 }

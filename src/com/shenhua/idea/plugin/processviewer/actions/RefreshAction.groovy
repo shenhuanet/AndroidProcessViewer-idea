@@ -19,11 +19,9 @@ class RefreshAction extends AnAction {
 
     @Override
     void actionPerformed(AnActionEvent e) {
-        CommandLine commandline = new CommandLine()
-        DeviceAdbParser parser = new DeviceAdbParser()
         ApplicationManager.getApplication().executeOnPooledThread({
-            AdbHelper adbHelper = new AdbHelper(e.project, commandline, parser)
-            ArrayList<Process> processes = adbHelper.getProcess("N2F4C15C08046582")
+            AdbHelper adbHelper = new AdbHelper()
+            ArrayList<Process> processes = adbHelper.getProcess(e.project, "N2F4C15C08046582")
             processes.forEach {
                 println(it.name)
             }

@@ -3,6 +3,7 @@ package com.shenhua.idea.plugin.processviewer.core
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.shenhua.idea.plugin.processviewer.bean.Device
+import com.shenhua.idea.plugin.processviewer.callback.OnDevicesCallback
 import com.shenhua.idea.plugin.processviewer.cmd.AdbHelper
 import com.shenhua.idea.plugin.processviewer.cmd.CommandLine
 import com.shenhua.idea.plugin.processviewer.cmd.DeviceAdbParser
@@ -14,23 +15,28 @@ import com.shenhua.idea.plugin.processviewer.cmd.DeviceAdbParser
  */
 class DevicesModel {
 
-    void toGetDevices(Project project) {
-        toGetDevices(project, null)
-    }
+    private static DevicesModel sModel = null
+    private ArrayList<Device> devices
+    private ArrayList<Process> processes
+    private OnDevicesCallback mOnDevicesCallback
 
-    void toGetDevices(Project project, Callback callback) {
-        CommandLine commandline = new CommandLine()
-        DeviceAdbParser parser = new DeviceAdbParser()
-        ApplicationManager.getApplication().executeOnPooledThread({
-            AdbHelper adbHelper = new AdbHelper(project, commandline, parser)
-            ArrayList<Device> devices = adbHelper.getDevices()
-            if (callback != null) {
-                callback.onObtainDevices(devices)
+    synchronized static DevicesModel get() {
+        if (sModel == null) {
+            synchronized (DevicesModel.class) {
+                sModel = new DevicesModel()
             }
-        })
+        }
+        sModel
     }
 
-    interface Callback {
-        void onObtainDevices(ArrayList<Device> devices)
+    private DevicesModel(){}
+
+    OnDevicesCallback getOnDevicesCallback() {
+        return mOnDevicesCallback
     }
+
+    void setOnDevicesCallback(OnDevicesCallback mOnDevicesCallback) {
+        this.mOnDevicesCallback = mOnDevicesCallback
+    }
+
 }

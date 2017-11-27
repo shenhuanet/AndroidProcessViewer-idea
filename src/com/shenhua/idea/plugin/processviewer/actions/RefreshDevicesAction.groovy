@@ -7,8 +7,10 @@ import com.shenhua.idea.plugin.processviewer.bean.Device
 import com.shenhua.idea.plugin.processviewer.cmd.AdbHelper
 import com.shenhua.idea.plugin.processviewer.cmd.CommandLine
 import com.shenhua.idea.plugin.processviewer.cmd.DeviceAdbParser
+import com.shenhua.idea.plugin.processviewer.core.DeviceServerImpl
 import com.shenhua.idea.plugin.processviewer.core.DevicesModel
 import com.shenhua.idea.plugin.processviewer.etc.Constans
+import com.shenhua.idea.plugin.processviewer.factory.ProcessViewerFactory
 
 /**
  * Created by shenhua on 2017-11-21-0021.
@@ -23,6 +25,6 @@ class RefreshDevicesAction extends AnAction {
 //            println("Android sdk not install.")
 //            return
 //        }
-        new DevicesModel().toGetDevices(anActionEvent.project)
+        new DeviceServerImpl().getDevice(anActionEvent.project, DevicesModel.get().onDevicesCallback)
     }
 }

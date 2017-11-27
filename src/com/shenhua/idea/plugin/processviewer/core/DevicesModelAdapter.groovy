@@ -26,7 +26,7 @@ class DevicesModelAdapter implements ComboBoxModel<Device> {
 
     @Override
     Object getSelectedItem() {
-        device == null ? devices.get(0) : device
+        device == null ? devices.size() == 0 ? null : devices.get(0) : device
     }
 
     @Override
@@ -45,5 +45,13 @@ class DevicesModelAdapter implements ComboBoxModel<Device> {
 
     @Override
     void removeListDataListener(ListDataListener l) {
+    }
+
+    void notifyDatas(ArrayList<Device> devices) {
+        this.devices = devices
+    }
+
+    void notifyItem(int index, Device device) {
+        devices.set(index, device)
     }
 }

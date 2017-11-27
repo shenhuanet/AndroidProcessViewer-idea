@@ -10,9 +10,11 @@ import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory
 import com.shenhua.idea.plugin.processviewer.bean.Device
+import com.shenhua.idea.plugin.processviewer.callback.OnDevicesCallback
 import com.shenhua.idea.plugin.processviewer.cmd.AdbHelper
 import com.shenhua.idea.plugin.processviewer.cmd.CommandLine
 import com.shenhua.idea.plugin.processviewer.cmd.DeviceAdbParser
+import com.shenhua.idea.plugin.processviewer.core.DeviceServerImpl
 import com.shenhua.idea.plugin.processviewer.core.DevicesModel
 import com.shenhua.idea.plugin.processviewer.core.DevicesModelAdapter
 import com.shenhua.idea.plugin.processviewer.etc.Constans
@@ -28,7 +30,7 @@ import java.awt.event.ActionListener
  * @author shenhua
  *         Email shenhuanet@126.com
  */
-class ProcessViewerFactory implements ToolWindowFactory {
+class ProcessViewerFactory implements ToolWindowFactory, OnDevicesCallback {
 
     private JPanel mPanel
     private JToolBar mLeftToolbar
@@ -36,8 +38,11 @@ class ProcessViewerFactory implements ToolWindowFactory {
     private JComboBox mDevicesComboBox
     private JTextField mFilterTextField
     private JTable mTable
-    private int mCurrentDevice = 0;
-    private ArrayList<Device> mDevices = new ArrayList<>();
+
+    private int mCurrentDevice = 0
+    private ArrayList<Device> mDevices = new ArrayList<>()
+    private DeviceServerImpl mServer
+    private DevicesModelAdapter mDevicesModelAdapter
 
     @Override
     void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
@@ -56,44 +61,44 @@ class ProcessViewerFactory implements ToolWindowFactory {
         ActionToolbar topToolbar = ActionManager.instance.createActionToolbar(Constans.TOP_TOOLBAR_ID, topGroup, false)
         mConnectToolbar.add(topToolbar.getComponent())
 
-        // showDatas
-        toGetDeviceList(project)
+        // connect the data model
+        DevicesModel.get().onDevicesCallback = this
+
+        // obtainDatas
+        mServer = new DeviceServerImpl()
+        mServer.getDevice(project, this)
+
     }
 
-    void toGetDeviceList(Project project) {
-        DevicesModel devicesModel = new DevicesModel()
-        devicesModel.toGetDevices(project, new DevicesModel.Callback() {
-
+    def addDevicesComboBoxListener() {
+        mDevicesComboBox.addActionListener(new ActionListener() {
             @Override
-            void onObtainDevices(ArrayList<Device> devices) {
-                mDevices.clear()
-                mDevices = devices
-                DevicesModelAdapter model = new DevicesModelAdapter(devices)
-                mDevicesComboBox.model = model
-                // add listener
-                mDevicesComboBox.addActionListener(new ActionListener() {
-                    @Override
-                    void actionPerformed(ActionEvent e) {
-                        if (mCurrentDevice == mDevicesComboBox.getSelectedIndex()) {
-                            return
-                        }
-                        mCurrentDevice = mDevicesComboBox.getSelectedIndex()
-                        Device device = mDevices.get(mCurrentDevice)
-                        println(Constans.TAG + "current devices:" + device.id)
-                    }
-                })
-                toGetDeviceProcess(project)
+            void actionPerformed(ActionEvent e) {
+                if (mCurrentDevice == mDevicesComboBox.getSelectedIndex()) {
+                    return
+                }
+                mCurrentDevice = mDevicesComboBox.getSelectedIndex()
+                Device device = mDevices.get(mCurrentDevice)
+                println(Constans.TAG + "current devices:" + device.id)
             }
         })
     }
 
-    void toGetDeviceProcess(Project project) {
-//        CommandLine commandline = new CommandLine()
-//        DeviceAdbParser parser = new DeviceAdbParser()
-//        ApplicationManager.getApplication().executeOnPooledThread({
-//            AdbHelper adbHelper = new AdbHelper(project, commandline, parser)
-//            String result = adbHelper.getProcess(mDevices.get(mCurrentDevice).id)
-//            println(Constans.TAG + "result:::::" + result)
-//        })
+    def addTableListener() {
+
+    }
+
+    @Override
+    void onObtainDevices(ArrayList<Device> devices) {
+        if (mDevicesModelAdapter == null) {
+            mDevicesModelAdapter = new DevicesModelAdapter(devices)
+        }
+        if (devices != null) {
+            mDevices.clear()
+            mDevices.addAll(devices)
+        }
+        println("---------------------- onObtainDevices")
+        mDevicesComboBox.model = mDevicesModelAdapter
+        addDevicesComboBoxListener()
     }
 }
