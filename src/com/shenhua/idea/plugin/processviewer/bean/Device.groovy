@@ -7,22 +7,24 @@ package com.shenhua.idea.plugin.processviewer.bean
  */
 class Device {
 
-    String id
+    String id //serial number
     String usb
     String product
     String model
     String name
-    boolean isOnline
+    String manufacturer
+    String sdk
+    String state
 
-    @Override
-    boolean equals(Object obj) {
-        obj == null || getClass() != obj.class
-        false
-        obj == this
-        true
-        Device device = obj as Device
-        id == device.id
-    }
+//    @Override
+//    boolean equals(Object obj) {
+//        if (obj == null || getClass() != obj.class)
+//            return false
+//        if (obj == this)
+//            return true
+//        Device device = obj as Device
+//        return id == device.id
+//    }
 
     @Override
     int hashCode() {
@@ -31,6 +33,10 @@ class Device {
 
     @Override
     String toString() {
-        isOnline ? "${model}[${id}]" : "${model}[${id}]-(offline)"
+        isOnline() ? "${model}[${id}]" : "${model}[${id}]-(${state})"
+    }
+
+    static boolean isOnline() {
+        true
     }
 }

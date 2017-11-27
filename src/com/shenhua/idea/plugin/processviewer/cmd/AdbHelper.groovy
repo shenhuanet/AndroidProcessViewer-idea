@@ -2,6 +2,7 @@ package com.shenhua.idea.plugin.processviewer.cmd
 
 import com.intellij.openapi.project.Project
 import com.shenhua.idea.plugin.processviewer.bean.Device
+import com.shenhua.idea.plugin.processviewer.etc.Constans
 import org.apache.http.util.TextUtils
 import org.jetbrains.android.sdk.AndroidSdkUtils
 
@@ -30,8 +31,7 @@ class AdbHelper {
     }
 
     ArrayList<Device> getDevices() {
-        String getDevicesCommand = getCommand("devices -l")
-        String adbDevicesOutput = commandLine.executeCommand(getDevicesCommand)
+        String adbDevicesOutput = commandLine.executeCommand(getAdbCommand(), "devices", "-l")
         adbParser.parseGetDevicesOutput(adbDevicesOutput)
     }
 
@@ -61,14 +61,20 @@ class AdbHelper {
         String adbPath = ""
         File adbFile = AndroidSdkUtils.getAdb(project)
         if (adbFile != null) {
-            println("adb file not null.")
+            println(Constans.TAG + "adb file not null.")
             adbPath = adbFile.getAbsolutePath()
         }
-        println("::::"+adbPath)
+        println("${Constans.TAG}adbPath: ${adbPath}")
         adbPath
     }
 
-    private String getCommand(String command) {
+    private String getAdbCommand() {
+        TextUtils.isEmpty(getAdbPath()) ?
+                "adb" :
+                "${getAdbPath()}adb"
+    }
+
+    private String getCommand(String... command) {
         TextUtils.isEmpty(getAdbPath()) ?
                 "adb ${command}" :
                 "${getAdbPath()}adb ${command}"

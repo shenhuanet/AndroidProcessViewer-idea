@@ -7,6 +7,13 @@ package com.shenhua.idea.plugin.processviewer.etc
  */
 class Constans {
 
+    static final String TAG = "ProcessViewer:"
+
+    /**
+     * Device state
+     */
+
+
     /**
      * LEFT
      */

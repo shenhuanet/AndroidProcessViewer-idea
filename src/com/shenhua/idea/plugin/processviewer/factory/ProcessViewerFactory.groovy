@@ -8,6 +8,8 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory
+import com.shenhua.idea.plugin.processviewer.actions.RefreshDevicesAction
+import com.shenhua.idea.plugin.processviewer.bean.Device
 import com.shenhua.idea.plugin.processviewer.bean.Process
 import com.shenhua.idea.plugin.processviewer.core.DevicesModel
 import com.shenhua.idea.plugin.processviewer.core.DevicesModelAdapter
@@ -54,11 +56,19 @@ class ProcessViewerFactory implements ToolWindowFactory {
 
         // add listener
 
+        // showDatas
+        toGetDeviceList(project)
+    }
 
-//        DevicesModel devicesModel = new DevicesModel()
-//        devicesModel.toGetDevices()
-//        DevicesModelAdapter model = new DevicesModelAdapter(devicesModel.getDevices())
-//        mDevicesComboBox.model = model
+    void toGetDeviceList(Project project) {
+        DevicesModel devicesModel = new DevicesModel()
+        devicesModel.toGetDevices(project, new DevicesModel.Callback() {
 
+            @Override
+            void onObtainDevices(ArrayList<Device> devices) {
+                DevicesModelAdapter model = new DevicesModelAdapter(devices)
+                mDevicesComboBox.model = model
+            }
+        })
     }
 }

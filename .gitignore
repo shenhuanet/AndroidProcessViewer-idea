@@ -3,3 +3,4 @@
 /.idea/misc.xml
 /AndroidProcessViewer-idea.iml
 .idea/workspace.xml
+/src/com/shenhua/idea/plugin/processviewer/etc/Test.groovy

@@ -1,6 +1,7 @@
 package com.shenhua.idea.plugin.processviewer.cmd
 
 import com.shenhua.idea.plugin.processviewer.bean.Device
+import com.shenhua.idea.plugin.processviewer.etc.Constans
 
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -15,7 +16,8 @@ class DeviceAdbParser {
 
     static final String MODEL_INDICATOR = "model:"
     static final String DEVICE_INDICATOR = "device:"
-    static final String DEVICE_USB_INDICATOR = "device usb:"
+    static final String DEVICE_DEVICE_INDICATOR = "device "
+    static final String DEVICE_USB_INDICATOR = "usb:"
     static final String PRODUCT_INDICATOR = "product:"
 
     static final String IP_SEPARATOR = "."
@@ -27,14 +29,14 @@ class DeviceAdbParser {
     static final String DEVICE_NOT_FOUND = "error: device '(null)' not found"
 
     synchronized ArrayList<Device> parseGetDevicesOutput(String adbDevicesOutput) {
-        println("adb output: " + adbDevicesOutput)
+        println(Constans.TAG + "parseGetDevicesOutput:\n" + adbDevicesOutput)
         ArrayList<Device> devices = new LinkedList<Device>()
         if (adbDevicesOutput.contains(DAEMON_INDICATOR)) {
-            devices
+            return devices
         }
         String[] splittedOutput = adbDevicesOutput.split("\\n")
         if (splittedOutput.length == 1) {
-            devices
+            return devices
         }
         for (int i = 1; i < splittedOutput.length; i++) {
             String line = splittedOutput[i]
@@ -55,7 +57,7 @@ class DeviceAdbParser {
     }
 
     static String parseDeviceName(String line) {
-        int start = line.indexOf(PRODUCT_INDICATOR) + PRODUCT_INDICATOR.length()
+        int start = line.indexOf(DEVICE_INDICATOR) + DEVICE_INDICATOR.length()
         line.substring(start, line.length())
     }
 
@@ -65,7 +67,7 @@ class DeviceAdbParser {
         if (end < 0) {
             end = line.length()
         }
-        line.substring(start, end)
+        line.substring(start, end).trim()
     }
 
     static String parseModel(String line) {
@@ -74,25 +76,27 @@ class DeviceAdbParser {
         if (end < 0) {
             end = line.length()
         }
-        line.substring(start, end)
+        line.substring(start, end).trim()
     }
 
     static String parseUsb(String line) {
+        if (!line.contains(DEVICE_USB_INDICATOR)) {
+            return ""
+        }
         int start = line.indexOf(DEVICE_USB_INDICATOR) + DEVICE_USB_INDICATOR.length()
         int end = line.indexOf(PRODUCT_INDICATOR) - 1
         if (end < 0) {
             end = line.length()
         }
-        line.substring(start, end)
-
+        line.substring(start, end).trim()
     }
 
     static String parseId(String line) {
-        int end = line.indexOf(DEVICE_USB_INDICATOR) - 1
+        int end = line.indexOf(DEVICE_DEVICE_INDICATOR) - 1
         if (end < 0) {
             end = line.length()
         }
-        line.substring(0, end)
+        line.substring(0, end).trim()
     }
 
     String parseGetDeviceIp(String ipInfo) {

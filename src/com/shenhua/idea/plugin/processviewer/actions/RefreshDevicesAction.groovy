@@ -7,6 +7,8 @@ import com.shenhua.idea.plugin.processviewer.bean.Device
 import com.shenhua.idea.plugin.processviewer.cmd.AdbHelper
 import com.shenhua.idea.plugin.processviewer.cmd.CommandLine
 import com.shenhua.idea.plugin.processviewer.cmd.DeviceAdbParser
+import com.shenhua.idea.plugin.processviewer.core.DevicesModel
+import com.shenhua.idea.plugin.processviewer.etc.Constans
 
 /**
  * Created by shenhua on 2017-11-21-0021.
@@ -15,22 +17,12 @@ import com.shenhua.idea.plugin.processviewer.cmd.DeviceAdbParser
  */
 class RefreshDevicesAction extends AnAction {
 
-    ArrayList<Device> devices = new LinkedList<Device>()
-
     @Override
     void actionPerformed(AnActionEvent anActionEvent) {
 //        if (!AdbHelper.isInstalled()) {
 //            println("Android sdk not install.")
 //            return
 //        }
-        CommandLine commandline = new CommandLine()
-        DeviceAdbParser parser = new DeviceAdbParser()
-        ApplicationManager.getApplication().executeOnPooledThread({
-            AdbHelper adbHelper = new AdbHelper(anActionEvent.project, commandline, parser)
-            devices = adbHelper.getDevices()
-            devices.forEach {
-                println(it)
-            }
-        })
+        new DevicesModel().toGetDevices(anActionEvent.project)
     }
 }

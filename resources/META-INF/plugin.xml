@@ -35,7 +35,7 @@
             <action id="ProcessViewer.RefreshAction" text="RefreshAction" description="Refresh datas"
                     icon="/icons/ic_refresh_datas_16x16.png"
                     class="com.shenhua.idea.plugin.processviewer.actions.RefreshAction">
-                <keyboard-shortcut keymap="$defaule" first-keystroke="F5"/>
+                <keyboard-shortcut keymap="$default" first-keystroke="F5"/>
             </action>
             <action id="ProcessViewer.StopAction" text="StopAction" description="Stop the process"
                     icon="/actions/suspend.png"
@@ -44,7 +44,7 @@
             <action id="ProcessViewer.Clean" text="CleanAction" description="Clean the showing datas"
                     icon="/actions/gc.png"
                     class="com.shenhua.idea.plugin.processviewer.actions.CleanDatasAction">
-                <keyboard-shortcut keymap="$defaule" first-keystroke="shift ctrl alt C"/>
+                <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt C"/>
             </action>
 
             <separator/>
