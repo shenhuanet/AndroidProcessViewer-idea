@@ -3,26 +3,27 @@ package com.shenhua.idea.plugin.processviewer.factory
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.ActionToolbar
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.wm.ToolWindow;
-import com.intellij.openapi.wm.ToolWindowFactory;
-import com.intellij.ui.content.Content;
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.wm.ToolWindow
+import com.intellij.openapi.wm.ToolWindowFactory
+import com.intellij.ui.content.Content
 import com.intellij.ui.content.ContentFactory
 import com.shenhua.idea.plugin.processviewer.bean.Device
+import com.shenhua.idea.plugin.processviewer.bean.Process
 import com.shenhua.idea.plugin.processviewer.callback.OnDevicesCallback
-import com.shenhua.idea.plugin.processviewer.cmd.AdbHelper
-import com.shenhua.idea.plugin.processviewer.cmd.CommandLine
-import com.shenhua.idea.plugin.processviewer.cmd.DeviceAdbParser
+import com.shenhua.idea.plugin.processviewer.callback.OnProcessCallback
+import com.shenhua.idea.plugin.processviewer.cmd.UserMouseAdapter
 import com.shenhua.idea.plugin.processviewer.core.DeviceServerImpl
 import com.shenhua.idea.plugin.processviewer.core.DevicesModel
 import com.shenhua.idea.plugin.processviewer.core.DevicesModelAdapter
 import com.shenhua.idea.plugin.processviewer.etc.Constans
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.NotNull
 
 import javax.swing.*
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
+import java.awt.event.MouseEvent
+import java.awt.event.MouseListener
 
 /**
  * Created by shenhua on 2017-11-20-0020.
@@ -30,7 +31,7 @@ import java.awt.event.ActionListener
  * @author shenhua
  *         Email shenhuanet@126.com
  */
-class ProcessViewerFactory implements ToolWindowFactory, OnDevicesCallback {
+class ProcessViewerFactory implements ToolWindowFactory, OnDevicesCallback, OnProcessCallback {
 
     private JPanel mPanel
     private JToolBar mLeftToolbar
@@ -71,6 +72,9 @@ class ProcessViewerFactory implements ToolWindowFactory, OnDevicesCallback {
     }
 
     def addDevicesComboBoxListener() {
+        if (mDevicesComboBox.getActionListeners() > 0) {
+            return
+        }
         mDevicesComboBox.addActionListener(new ActionListener() {
             @Override
             void actionPerformed(ActionEvent e) {
@@ -85,7 +89,21 @@ class ProcessViewerFactory implements ToolWindowFactory, OnDevicesCallback {
     }
 
     def addTableListener() {
+        if (mTable.getMouseListeners() > 0) {
+            return
+        }
+        mTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
+        mTable.addMouseListener(new UserMouseAdapter() {
+            @Override
+            void onSingleClicked(MouseEvent e) {
+                println("sigle click: ${mTable.getSelectedRow()},${mTable.getSelectedColumn()}")
+            }
 
+            @Override
+            void onDoubleClicked(MouseEvent e) {
+                println("double click: ${mTable.getSelectedRow()}")
+            }
+        })
     }
 
     @Override
@@ -100,5 +118,10 @@ class ProcessViewerFactory implements ToolWindowFactory, OnDevicesCallback {
         println("---------------------- onObtainDevices")
         mDevicesComboBox.model = mDevicesModelAdapter
         addDevicesComboBoxListener()
+    }
+
+    @Override
+    void onObtainProcess(ArrayList<Process> processes) {
+        addTableListener()
     }
 }

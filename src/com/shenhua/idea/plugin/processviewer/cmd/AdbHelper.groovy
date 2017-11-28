@@ -1,11 +1,8 @@
 package com.shenhua.idea.plugin.processviewer.cmd
 
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.shenhua.idea.plugin.processviewer.bean.Device
 import com.shenhua.idea.plugin.processviewer.bean.Process
-import com.shenhua.idea.plugin.processviewer.etc.Constans
-import org.apache.http.util.TextUtils
 import org.jetbrains.android.sdk.AndroidSdkUtils
 
 /**

@@ -1,9 +1,6 @@
 package com.shenhua.idea.plugin.processviewer.cmd
 
 import com.shenhua.idea.plugin.processviewer.etc.Constans
-import org.apache.http.util.TextUtils
-
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by shenhua on 2017-11-25-0025.

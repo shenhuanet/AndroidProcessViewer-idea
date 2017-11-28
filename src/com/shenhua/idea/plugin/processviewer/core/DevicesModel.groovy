@@ -1,12 +1,7 @@
 package com.shenhua.idea.plugin.processviewer.core
 
-import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.project.Project
 import com.shenhua.idea.plugin.processviewer.bean.Device
 import com.shenhua.idea.plugin.processviewer.callback.OnDevicesCallback
-import com.shenhua.idea.plugin.processviewer.cmd.AdbHelper
-import com.shenhua.idea.plugin.processviewer.cmd.CommandLine
-import com.shenhua.idea.plugin.processviewer.cmd.DeviceAdbParser
 
 /**
  * Created by shenhua on 2017-11-24-0024.

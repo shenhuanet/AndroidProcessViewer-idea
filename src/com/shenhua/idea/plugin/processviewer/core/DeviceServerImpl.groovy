@@ -7,8 +7,6 @@ import com.shenhua.idea.plugin.processviewer.callback.OnDevicesCallback
 import com.shenhua.idea.plugin.processviewer.callback.OnKillProcessCallback
 import com.shenhua.idea.plugin.processviewer.callback.OnProcessCallback
 import com.shenhua.idea.plugin.processviewer.cmd.AdbHelper
-import com.shenhua.idea.plugin.processviewer.cmd.CommandLine
-import com.shenhua.idea.plugin.processviewer.cmd.DeviceAdbParser
 
 /**
  * Created by shenhua on 2017/11/27.
