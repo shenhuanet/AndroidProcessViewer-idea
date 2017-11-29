@@ -32,16 +32,16 @@
     <actions>
         <!-- Add your actions here -->
         <group id="ProcessViewer.LeftGroup" text="LeftGroup" popup="false">
-            <action id="ProcessViewer.RefreshAction" text="RefreshAction" description="Refresh datas"
+            <action id="ProcessViewer.RefreshAction" text="Refresh" description="Refresh datas"
                     icon="/icons/ic_refresh_datas_16x16.png"
                     class="com.shenhua.idea.plugin.processviewer.actions.RefreshAction">
                 <keyboard-shortcut keymap="$default" first-keystroke="F5"/>
             </action>
-            <action id="ProcessViewer.StopAction" text="StopAction" description="Stop the process"
+            <action id="ProcessViewer.StopAction" text="Stop" description="Stop the process"
                     icon="/actions/suspend.png"
                     class="com.shenhua.idea.plugin.processviewer.actions.StopProcessAction">
             </action>
-            <action id="ProcessViewer.Clean" text="CleanAction" description="Clean the showing datas"
+            <action id="ProcessViewer.Clean" text="Clean All" description="Clean the showing datas"
                     icon="/actions/gc.png"
                     class="com.shenhua.idea.plugin.processviewer.actions.CleanDatasAction">
                 <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt C"/>
@@ -49,16 +49,16 @@
 
             <separator/>
 
-            <action id="ProcessViewer.Settings" text="SettingsAction"
+            <action id="ProcessViewer.Settings" text="Settings"
                     description="ProcessViewer plugin preferences page"
                     icon="/general/ideOptions.png"
                     class="com.shenhua.idea.plugin.processviewer.actions.SettingsAction">
             </action>
-            <action id="ProcessViewer.Help" text="HelpAction" description="Show the ProcessViewer plugin help"
+            <action id="ProcessViewer.Help" text="Help" description="Show the ProcessViewer plugin help"
                     icon="/actions/help.png"
                     class="com.shenhua.idea.plugin.processviewer.actions.HelpAction">
             </action>
-            <action id="ProcessViewer.Close" text="CloseAction" description="Close the ProcessViewer plugin window"
+            <action id="ProcessViewer.Close" text="Close Window" description="Close the ProcessViewer plugin window"
                     icon="/actions/cancel.png"
                     class="com.intellij.ide.actions.CloseActiveTabAction">
             </action>
@@ -67,7 +67,7 @@
         <group id="ProcessViewer.TopGroup" text="TopGroup" popup="false">
             <action id="ProcessViewer.RefreshDevicesAction"
                     class="com.shenhua.idea.plugin.processviewer.actions.RefreshDevicesAction"
-                    text="RefreshDevicesAction"
+                    text="Refresh Devices"
                     description="Refresh the online devices if possible"
                     icon="/icons/ic_refresh_devices_16x16.png">
             </action>
