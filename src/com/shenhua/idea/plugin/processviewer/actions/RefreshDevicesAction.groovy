@@ -2,8 +2,6 @@ package com.shenhua.idea.plugin.processviewer.actions
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.shenhua.idea.plugin.processviewer.core.DeviceServerImpl
-import com.shenhua.idea.plugin.processviewer.core.DevicesModel
 
 /**
  * Created by shenhua on 2017-11-21-0021.
@@ -18,6 +16,6 @@ class RefreshDevicesAction extends AnAction {
 //            println("Android sdk not install.")
 //            return
 //        }
-        new DeviceServerImpl().getDevice(anActionEvent.project, DevicesModel.get().onDevicesCallback)
+//        new DeviceServerImpl().getDevice(anActionEvent.project, DevicesModel.get().onDevicesCallback)
     }
 }

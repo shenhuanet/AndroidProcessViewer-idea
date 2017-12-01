@@ -1,7 +1,7 @@
-package com.shenhua.idea.plugin.processviewer.actions;
+package com.shenhua.idea.plugin.processviewer.actions
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
 
 /**
  * Created by shenhua on 2017-11-20-0020.

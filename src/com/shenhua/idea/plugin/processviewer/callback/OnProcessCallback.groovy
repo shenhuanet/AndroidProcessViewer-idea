@@ -1,6 +1,5 @@
 package com.shenhua.idea.plugin.processviewer.callback
 
-import com.shenhua.idea.plugin.processviewer.bean.Device
 import com.shenhua.idea.plugin.processviewer.bean.Process
 
 /**

@@ -1,6 +1,6 @@
-package com.shenhua.idea.plugin.processviewer.actions;
+package com.shenhua.idea.plugin.processviewer.actions
 
-import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager
 import com.shenhua.idea.plugin.processviewer.bean.Process

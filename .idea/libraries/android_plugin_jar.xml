@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="android-plugin-jar">
+    <CLASSES>
+      <root url="jar://$APPLICATION_HOME_DIR$/plugins/android/lib/android.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/plugins/android/lib/sdk-tools.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/plugins/android/lib/sdklib.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/plugins/android/lib/common.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
