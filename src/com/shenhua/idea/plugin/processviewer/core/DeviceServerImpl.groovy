@@ -75,7 +75,7 @@ class DeviceServerImpl implements DeviceServer, Disposable, AndroidDebugBridge.I
                 return
             }
             if (device != null && mDevicesCallback != null) {
-                mDevicesCallback.onDeviceSelected()
+                mDevicesCallback.onDeviceSelected(device)
             }
         });
     }

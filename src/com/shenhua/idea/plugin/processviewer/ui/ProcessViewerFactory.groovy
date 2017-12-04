@@ -17,8 +17,11 @@ import com.intellij.ui.components.JBLoadingPanel
 import com.intellij.ui.content.Content
 import com.intellij.ui.content.ContentFactory
 import com.intellij.util.ui.UIUtil
+import com.shenhua.idea.plugin.processviewer.actions.RefreshAction
 import com.shenhua.idea.plugin.processviewer.bean.Device
+import com.shenhua.idea.plugin.processviewer.bean.Process
 import com.shenhua.idea.plugin.processviewer.callback.OnDevicesCallback
+import com.shenhua.idea.plugin.processviewer.callback.OnProcessCallback
 import com.shenhua.idea.plugin.processviewer.cmd.AdbHelper
 import com.shenhua.idea.plugin.processviewer.cmd.UserMouseAdapter
 import com.shenhua.idea.plugin.processviewer.core.DeviceServer
@@ -26,10 +29,15 @@ import com.shenhua.idea.plugin.processviewer.core.DeviceServerImpl
 import com.shenhua.idea.plugin.processviewer.core.DevicesModelAdapter
 import com.shenhua.idea.plugin.processviewer.etc.ComboBoxRenderer
 import com.shenhua.idea.plugin.processviewer.etc.Constans
+import com.shenhua.idea.plugin.processviewer.etc.ProcessTableModel
 import org.jetbrains.annotations.NotNull
 
 import javax.swing.*
+import javax.swing.table.DefaultTableModel
+import javax.swing.table.TableModel
+import javax.swing.table.TableRowSorter
 import java.awt.BorderLayout
+import java.awt.Dimension
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.awt.event.MouseEvent
@@ -40,10 +48,11 @@ import java.awt.event.MouseEvent
  * @author shenhua
  *         Email shenhuanet@126.com
  */
-class ProcessViewerFactory implements ToolWindowFactory, Disposable {
+class ProcessViewerFactory implements ToolWindowFactory, Disposable, OnProcessCallback {
 
     private static final String TAG = "ProcessViewer"
-    private JPanel mPanel1
+    private Project mProject
+    private JPanel mPanel
     private JToolBar mLeftToolbar
     private JToolBar mConnectToolbar
     private JComboBox mDevicesComboBox
@@ -55,15 +64,18 @@ class ProcessViewerFactory implements ToolWindowFactory, Disposable {
     private ArrayList<Device> mDevices = new ArrayList<>()
     private DeviceServerImpl mServer
     private DevicesModelAdapter mDevicesModelAdapter
+//    private RefreshAction mRefreshAction
+    private TableRowSorter<TableModel> sorter
+    private OnProcessCallback mProcessCallback
 
     @Override
     void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+        mProject = project
         ExecutionManager.getInstance(project).getContentManager()
         RunnerLayoutUi layoutUi = RunnerLayoutUi.Factory.getInstance(project).create(TAG, TAG, TAG, project)
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance()
         // content
-        println(mPanel1 == null)
-        Content content = layoutUi.createContent(TAG, mPanel1, TAG, null, null)
+        Content content = layoutUi.createContent(TAG, mPanel, TAG, null, null)
         content.setDisposer(this)
         layoutUi.addContent(content, 0, PlaceInGrid.center, false)
         // loading
@@ -75,32 +87,34 @@ class ProcessViewerFactory implements ToolWindowFactory, Disposable {
         AdbHelper adbHelper = new AdbHelper()
         adbHelper.loadingAdb(project, loadingPanel)
         createContent()
-        setupDevices(project)
+        setupDevices()
     }
 
     /**
      * to setup the DeviceServer for work
-     * @param project
      */
-    void setupDevices(@NotNull Project project) {
+    void setupDevices() {
         ApplicationManager.getApplication().invokeLater({
-            DeviceServer server = new DeviceServerImpl(project, mDeviceContext, new OnDevicesCallback() {
+            DeviceServer server = new DeviceServerImpl(mProject, mDeviceContext, new OnDevicesCallback() {
                 @Override
                 void onObtainDevices(ArrayList<IDevice> devices) {
                     UIUtil.invokeLaterIfNeeded({
-                        if (!project.isDisposed()) {
+                        if (!mProject.isDisposed()) {
                             obtainDevices(devices)
                         }
                     })
                 }
 
                 @Override
-                void onDeviceSelected() {
-                    println("xxxxx")
+                void onDeviceSelected(IDevice device) {
+                    AdbHelper adbHelper = new AdbHelper()
+                    ArrayList<Process> processes = adbHelper.getProcess(mProject, device.serialNumber)
+                    println(processes.size())
+                    onObtainProcess(processes)
                 }
             })
             server.start()
-        }, project.getDisposed())
+        }, mProject.getDisposed())
     }
 
     /**
@@ -129,6 +143,8 @@ class ProcessViewerFactory implements ToolWindowFactory, Disposable {
             ActionGroup topGroup = ActionManager.instance.getAction(Constans.TOP_GROUP_ID) as ActionGroup
             ActionToolbar topToolbar = ActionManager.instance.createActionToolbar(Constans.TOP_TOOLBAR_ID, topGroup, false)
             mConnectToolbar.add(topToolbar.getComponent())
+            RefreshAction refreshAction = ActionManager.instance.getAction(Constans.ACTION_ID_REFRESH)
+            refreshAction.processCallback = this
 
             // config mDevicesComboBox
             mDevicesComboBox.setRenderer(new ComboBoxRenderer())
@@ -140,64 +156,55 @@ class ProcessViewerFactory implements ToolWindowFactory, Disposable {
                     mDeviceContext.fireDeviceSelected(device)
                 }
             })
-        })
-    }
 
-    def addDevicesComboBoxListener() {
-        if (mDevicesComboBox.getActionListeners().length > 0) {
-            return
-        }
-        mDevicesComboBox.addActionListener(new ActionListener() {
-            @Override
-            void actionPerformed(ActionEvent e) {
-                if (mCurrentDevice == mDevicesComboBox.getSelectedIndex()) {
-                    return
+            // config table
+            mTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
+            mTable.getTableHeader().setPreferredSize(new Dimension(-1, 24))
+            mTable.addMouseListener(new UserMouseAdapter() {
+                @Override
+                void onSingleClicked(MouseEvent e) {
+                    println("single click: x(${mTable.getSelectedColumn()}) y(${mTable.getSelectedRow()})")
                 }
-                mCurrentDevice = mDevicesComboBox.getSelectedIndex()
-                Device device = mDevices.get(mCurrentDevice)
-                println(Constans.TAG + "current devices:" + device.id)
-            }
+
+                @Override
+                void onDoubleClicked(MouseEvent e) {
+                    println("double click: x(${mTable.getSelectedRow()})")
+                }
+            })
         })
     }
 
-    def addTableListener() {
-        if (mTable.getMouseListeners() > 0) {
-            return
-        }
-        mTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
-        mTable.addMouseListener(new UserMouseAdapter() {
-            @Override
-            void onSingleClicked(MouseEvent e) {
-                println("sigle click: ${mTable.getSelectedRow()},${mTable.getSelectedColumn()}")
-            }
-
-            @Override
-            void onDoubleClicked(MouseEvent e) {
-                println("double click: ${mTable.getSelectedRow()}")
-            }
-        })
-    }
-
-//    @Override
-//    void onObtainDevices(ArrayList<Device> devices) {
-////        if (mDevicesModelAdapter == null) {
-//            mDevicesModelAdapter = new DevicesModelAdapter(devices)
-////        }
-//        if (devices != null) {
-//            mDevices.clear()
-//            mDevices.addAll(devices)
-//        }
-//        println("---------------------- onObtainDevices")
-//        mDevicesComboBox.model = mDevicesModelAdapter
-//        addDevicesComboBoxListener()
-//    }
-//
-//    @Override
-//    void onObtainProcess(ArrayList<Process> processes) {
-//        addTableListener()
-//    }
     @Override
     void dispose() {
         println("${TAG} dispose")
+    }
+
+    @Override
+    void onObtainProcess(ArrayList<Process> processes) {
+        DefaultTableModel model = new ProcessTableModel()
+        Object[][] datas = new Object[processes.size()][7]
+        for (int i = 0; i < processes.size(); i++) {
+            datas[i][0] = processes.get(i).user
+            datas[i][1] = processes.get(i).pid
+            datas[i][2] = processes.get(i).ppid
+            datas[i][3] = processes.get(i).vSize
+            datas[i][4] = processes.get(i).rss
+            datas[i][5] = processes.get(i).wChan
+            datas[i][6] = processes.get(i).name
+        }
+        model.setDataVector(datas, Constans.COLUMN_NAME)
+        sorter = new TableRowSorter<TableModel>(model)
+        mTable.setModel(model)
+        mTable.setRowSorter(sorter)
+        setTableSize()
+    }
+
+    private void setTableSize() {
+        mTable.getColumnModel().getColumn(0).setPreferredWidth(50)
+        mTable.getColumnModel().getColumn(1).setPreferredWidth(50)
+        mTable.getColumnModel().getColumn(2).setPreferredWidth(50)
+        mTable.getColumnModel().getColumn(3).setPreferredWidth(50)
+        mTable.getColumnModel().getColumn(4).setPreferredWidth(50)
+        mTable.getColumnModel().getColumn(5).setPreferredWidth(50)
     }
 }

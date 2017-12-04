@@ -9,6 +9,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.ui.components.JBLoadingPanel
 import com.shenhua.idea.plugin.processviewer.bean.Device
 import com.shenhua.idea.plugin.processviewer.bean.Process
+import com.shenhua.idea.plugin.processviewer.etc.Constans
 import org.jetbrains.android.sdk.AndroidSdkUtils
 import org.jetbrains.annotations.NotNull
 
@@ -70,12 +71,10 @@ class AdbHelper {
     }
 
     private synchronized String getAdbCommand(Project project) {
-//        File adbFile = AndroidSdkUtils.getAdb(project)
-//        if (adbFile != null) {
-//            println(Constans.TAG + "adb file not null.")
-//            return "${adbFile.getAbsolutePath()}adb"
-//        }
-//        return "/Users/shenhua/Library/Android/sdk/platform-tools/adb"
-        "adb"
+        File adbFile = AndroidSdkUtils.getAdb(project)
+        if (adbFile != null)
+            "${adbFile.getAbsolutePath()}"
+        else
+            "adb"
     }
 }

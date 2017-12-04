@@ -13,7 +13,6 @@ class Constans {
      * Device state
      */
 
-
     /**
      * LEFT
      */
@@ -29,4 +28,9 @@ class Constans {
      */
     static final String TOP_GROUP_ID = "ProcessViewer.TopGroup"
     static final String TOP_TOOLBAR_ID = "ProcessViewer.TopToolbar"
+    /**
+     * Table
+     */
+    static final String[] COLUMN_NAME = ['user', 'pid', 'ppid', 'vSize', 'rss', 'wChan', 'name']
+
 }

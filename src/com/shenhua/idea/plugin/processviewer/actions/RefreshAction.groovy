@@ -4,6 +4,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager
 import com.shenhua.idea.plugin.processviewer.bean.Process
+import com.shenhua.idea.plugin.processviewer.callback.OnProcessCallback
 import com.shenhua.idea.plugin.processviewer.cmd.AdbHelper
 
 /**
@@ -14,13 +15,23 @@ import com.shenhua.idea.plugin.processviewer.cmd.AdbHelper
  */
 class RefreshAction extends AnAction {
 
+    OnProcessCallback processCallback
+    String serialNumber
+
+    void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber
+    }
+
     @Override
     void actionPerformed(AnActionEvent e) {
+        if (serialNumber == null) {
+            return
+        }
         ApplicationManager.getApplication().executeOnPooledThread({
             AdbHelper adbHelper = new AdbHelper()
-            ArrayList<Process> processes = adbHelper.getProcess(e.project, "N2F4C15C08046582")
-            processes.forEach {
-                println(it.name)
+            ArrayList<Process> processes = adbHelper.getProcess(e.project, serialNumber)
+            if (processCallback != null) {
+                processCallback.onObtainProcess(processes)
             }
         })
     }

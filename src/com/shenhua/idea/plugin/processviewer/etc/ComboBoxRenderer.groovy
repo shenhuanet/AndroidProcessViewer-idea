@@ -19,7 +19,7 @@ class ComboBoxRenderer extends ColoredListCellRenderer<IDevice> {
     protected void customizeCellRenderer(
             @NotNull JList<? extends IDevice> jList, IDevice device, int index, boolean selected, boolean hasFocus) {
         if (device == null) {
-            append("No Connected Device")
+            append("No Connected Device", SimpleTextAttributes.ERROR_ATTRIBUTES)
         } else {
             String name
             if (device.isEmulator()) {

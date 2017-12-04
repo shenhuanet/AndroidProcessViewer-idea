@@ -20,5 +20,5 @@ interface OnDevicesCallback {
     /**
      * Call when the ComboBox list selected.
      */
-    void onDeviceSelected()
+    void onDeviceSelected(IDevice device)
 }
