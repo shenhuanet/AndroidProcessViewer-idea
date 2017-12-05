@@ -1,5 +1,6 @@
 package com.shenhua.idea.plugin.processviewer.actions
 
+import com.android.tools.idea.actions.BrowserHelpAction
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
@@ -11,11 +12,10 @@ import com.intellij.openapi.ui.Messages
  * @author shenhua
  *         Email shenhuanet@126.com
  */
-class HelpAction extends AnAction {
+class HelpAction extends BrowserHelpAction {
 
-    @Override
-    void actionPerformed(AnActionEvent anActionEvent) {
-        Project project = anActionEvent.getData(PlatformDataKeys.PROJECT)
-        Messages.showMessageDialog(project, "Hello", "Message", Messages.getInformationIcon())
+    HelpAction() {
+        super("Help", "https://github.com/shenhuanet/AndroidProcessViewer-idea");
     }
+
 }

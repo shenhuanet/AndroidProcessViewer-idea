@@ -15,8 +15,8 @@ import com.shenhua.idea.plugin.processviewer.cmd.AdbHelper
  */
 class RefreshAction extends AnAction {
 
-    OnProcessCallback processCallback
-    String serialNumber
+    public OnProcessCallback processCallback
+    public volatile String serialNumber
 
     void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber
@@ -24,9 +24,6 @@ class RefreshAction extends AnAction {
 
     @Override
     void actionPerformed(AnActionEvent e) {
-        if (serialNumber == null) {
-            return
-        }
         ApplicationManager.getApplication().executeOnPooledThread({
             AdbHelper adbHelper = new AdbHelper()
             ArrayList<Process> processes = adbHelper.getProcess(e.project, serialNumber)
@@ -34,5 +31,11 @@ class RefreshAction extends AnAction {
                 processCallback.onObtainProcess(processes)
             }
         })
+    }
+
+    @Override
+    void update(AnActionEvent e) {
+        super.update(e)
+        e.getPresentation().enabled = serialNumber != null
     }
 }

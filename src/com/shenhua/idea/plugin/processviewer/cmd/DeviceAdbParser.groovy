@@ -1,8 +1,7 @@
 package com.shenhua.idea.plugin.processviewer.cmd
 
-import com.shenhua.idea.plugin.processviewer.bean.Device
+
 import com.shenhua.idea.plugin.processviewer.bean.Process
-import com.shenhua.idea.plugin.processviewer.etc.Constans
 
 /**
  * Created by shenhua on 2017/11/25.
@@ -25,34 +24,6 @@ class DeviceAdbParser {
     static final String DAEMON_INDICATOR = "daemon"
     static final String START_TCPIP_PORT_INDICATOR = "[service.adb.tcp.port]: ["
     static final String DEVICE_NOT_FOUND = "error: device '(null)' not found"
-
-    synchronized ArrayList<Device> parseGetDevicesOutput(String adbDevicesOutput) {
-        println(Constans.TAG + "parseGetDevicesOutput:\n" + adbDevicesOutput)
-        ArrayList<Device> devices = new LinkedList<Device>()
-        if (adbDevicesOutput.contains(DAEMON_INDICATOR)) {
-            return devices
-        }
-        String[] splittedOutput = adbDevicesOutput.split("\\n")
-        if (splittedOutput.length == 1) {
-            return devices
-        }
-        for (int i = 1; i < splittedOutput.length; i++) {
-            String line = splittedOutput[i]
-            String[] deviceLine = line.split("\\t")
-            String ip = deviceLine[0].substring(0, deviceLine[0].indexOf(" "))
-            if (ip.contains(DOT_SEPARATOR)) {
-                continue
-            }
-            Device device = new Device()
-            device.id = parseId(line)
-            device.usb = parseUsb(line)
-            device.product = parseProduct(line)
-            device.model = parseModel(line)
-            device.name = parseDeviceName(line)
-            devices.add(device)
-        }
-        devices
-    }
 
     static String parseDeviceName(String line) {
         int start = line.indexOf(DEVICE_INDICATOR) + DEVICE_INDICATOR.length()

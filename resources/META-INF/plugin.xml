@@ -26,8 +26,14 @@
         <!-- Add your extensions here -->
         <toolWindow canCloseContents="false" anchor="bottom"
                     id="ProcessViewer" icon="/icons/icon_logo_13x13.png"
-                    factoryClass="com.shenhua.idea.plugin.processviewer.ui.ProcessViewerFactory"/>
+                    factoryClass="com.shenhua.idea.plugin.processviewer.ui.ProcessViewer"/>
     </extensions>
+
+    <project-components>
+        <component>
+            <implementation-class>com.shenhua.idea.plugin.processviewer.ui.ContentComponent</implementation-class>
+        </component>
+    </project-components>
 
     <actions>
         <!-- Add your actions here -->

@@ -7,22 +7,19 @@ package com.shenhua.idea.plugin.processviewer.etc
  */
 class Constans {
 
+    static final String WINDOW_ID = "ProcessViewer"
     static final String TAG = "ProcessViewer:"
-
-    /**
-     * Device state
-     */
 
     /**
      * LEFT
      */
-    static final String LEFT_GROUP_ID = "ProcessViewer.LeftGroup"
-    static final String LEFT_TOOLBAR_ID = "ProcessViewer.LeftToolbar"
-    static final String ACTION_ID_REFRESH = "ProcessViewer.RefreshAction"
-    static final String ACTION_ID_STOP = "ProcessViewer.StopAction"
-    static final String ACTION_ID_CLEAN = "ProcessViewer.CleanAction"
-    static final String ACTION_ID_SETTINGS = "ProcessViewer.SettingsAction"
-    static final String ACTION_ID_HELP = "ProcessViewer.HelpAction"
+    public static final String LEFT_GROUP_ID = "ProcessViewer.LeftGroup"
+    public static final String LEFT_TOOLBAR_ID = "ProcessViewer.LeftToolbar"
+    public static final String ACTION_ID_REFRESH = "ProcessViewer.RefreshAction"
+    public static final String ACTION_ID_STOP = "ProcessViewer.StopAction"
+    public static final String ACTION_ID_CLEAN = "ProcessViewer.CleanAction"
+    public static final String ACTION_ID_SETTINGS = "ProcessViewer.SettingsAction"
+    public static final String ACTION_ID_HELP = "ProcessViewer.HelpAction"
     /**
      * TOP
      */
@@ -31,6 +28,6 @@ class Constans {
     /**
      * Table
      */
-    static final String[] COLUMN_NAME = ['user', 'pid', 'ppid', 'vSize', 'rss', 'wChan', 'name']
-
+    public static final String[] COLUMN_NAME = ['user', 'pid', 'ppid', 'vSize', 'rss', 'wChan', 'name']
+    public static final int COLUMN_WIDTH = 150
 }
