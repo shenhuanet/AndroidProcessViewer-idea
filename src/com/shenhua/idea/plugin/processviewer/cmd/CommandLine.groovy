@@ -1,7 +1,5 @@
 package com.shenhua.idea.plugin.processviewer.cmd
 
-import com.shenhua.idea.plugin.processviewer.etc.Constans
-
 /**
  * Created by shenhua on 2017-11-25-0025.
  * @author shenhua
@@ -10,7 +8,6 @@ import com.shenhua.idea.plugin.processviewer.etc.Constans
 class CommandLine {
 
     static String executeCommand(String... command) {
-        println(Constans.TAG + "command:${command}")
         StringBuilder stringBuilder = new StringBuilder()
         try {
             ProcessBuilder pb = new ProcessBuilder(command)
@@ -33,7 +30,6 @@ class CommandLine {
     }
 
     static String executeShellCommand(String command) {
-        println(Constans.TAG + "command:${command}")
         StringBuilder stringBuilder = new StringBuilder()
         try {
             Process process = Runtime.getRuntime().exec(command)

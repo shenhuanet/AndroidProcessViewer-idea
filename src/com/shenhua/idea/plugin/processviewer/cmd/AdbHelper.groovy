@@ -72,15 +72,18 @@ class AdbHelper {
         AndroidSdkUtils.isAndroidSdkAvailable()
     }
 
+    void killProcess(Project project, String deviceId, String pid) {
+        CommandLine commandLine = new CommandLine()
+        DeviceAdbParser adbParser = new DeviceAdbParser()
+        String adbOutput = commandLine.executeShellCommand(getAdbCommand(project) + " -s ${deviceId} shell kill ${pid}")
+        println(adbOutput)
+    }
+
     ArrayList<Process> getProcess(Project project, String deviceId) {
         CommandLine commandLine = new CommandLine()
         DeviceAdbParser adbParser = new DeviceAdbParser()
-        String adbOutput = commandLine.executeShellCommand(getAdbCommand(project) + " -s " + deviceId + " shell " + "ps")
+        String adbOutput = commandLine.executeShellCommand(getAdbCommand(project) + " -s ${deviceId} shell ps")
         adbParser.parseProcessList(adbOutput)
-    }
-
-    boolean isRoot() {
-        false
     }
 
     private synchronized String getAdbCommand(Project project) {

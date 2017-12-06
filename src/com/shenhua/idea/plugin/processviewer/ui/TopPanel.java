@@ -8,14 +8,17 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.ui.UIUtil;
 import com.shenhua.idea.plugin.processviewer.actions.RefreshAction;
+import com.shenhua.idea.plugin.processviewer.actions.StopProcessAction;
 import com.shenhua.idea.plugin.processviewer.bean.Process;
 import com.shenhua.idea.plugin.processviewer.callback.OnDevicesCallback;
 import com.shenhua.idea.plugin.processviewer.callback.OnProcessCallback;
 import com.shenhua.idea.plugin.processviewer.cmd.AdbHelper;
 import com.shenhua.idea.plugin.processviewer.core.DeviceServer;
 import com.shenhua.idea.plugin.processviewer.core.DeviceServerImpl;
+import com.shenhua.idea.plugin.processviewer.etc.BusProvider;
 import com.shenhua.idea.plugin.processviewer.etc.ComboBoxRenderer;
 import com.shenhua.idea.plugin.processviewer.etc.Constans;
+import com.shenhua.idea.plugin.processviewer.etc.events.RefreshEvent;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -125,7 +128,13 @@ public class TopPanel implements OnProcessCallback {
         onObtainProcess(processes);
         RefreshAction refreshAction = (RefreshAction) ActionManager.getInstance().getAction(Constans.ACTION_ID_REFRESH);
         refreshAction.processCallback = this;
-        refreshAction.setSerialNumber(device.getSerialNumber());
+        BusProvider.get().post(new RefreshEvent(device.getSerialNumber()));
+        StopProcessAction stopProcessAction = (StopProcessAction) ActionManager.getInstance().getAction(Constans.ACTION_ID_STOP);
+        try {
+            stopProcessAction.isRoot = device.isRoot();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

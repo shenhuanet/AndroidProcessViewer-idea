@@ -1,11 +1,24 @@
 # Android Process Viewer
-[![Build Status](https://img.shields.io/badge/build-developing-yellowgreen.svg)](#)
+[![passing](https://img.shields.io/travis/rust-lang/rust/master.svg)](#)
 [![License2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-![](https://github.com/shenhuanet/AndroidProcessViewer-groovy/blob/master/resources/icons/icon_logo_100x100.png)
+![](https://github.com/shenhuanet/AndroidProcessViewer-idea/blob/master/resources/icons/icon_logo_100x100.png)
 
 An Android-Studio plugin to quickly to get the running process and background service on Android platfrom.
 
+## Preview
+![](https://github.com/shenhuanet/AndroidProcessViewer-idea/blob/master/screenshot/pic_001.png)
+![](https://github.com/shenhuanet/AndroidProcessViewer-idea/blob/master/screenshot/pic_002.png)
+
+## 功能介绍(TODO)
+- [x] 动态获取已连接的Android设备
+- [x] 支持刷新进程信息
+- [x] 如果Android设置已Root,则可kill该进程
+- [x] 支持列表信息动态过滤
+- [ ] 查看进程详细信息和关联进程信息
+
+## DownLoad
+![Version 1.0](https://github.com/shenhuanet/AndroidProcessViewer-idea/blob/master/AndroidProcessViewer-idea-1.0.jar)
 
 ## About Me
 CSDN：http://blog.csdn.net/klxh2009<br>

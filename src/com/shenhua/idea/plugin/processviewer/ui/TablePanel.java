@@ -1,10 +1,14 @@
 package com.shenhua.idea.plugin.processviewer.ui;
 
+import com.google.common.eventbus.Subscribe;
 import com.shenhua.idea.plugin.processviewer.bean.Process;
 import com.shenhua.idea.plugin.processviewer.callback.OnProcessCallback;
 import com.shenhua.idea.plugin.processviewer.cmd.UserMouseAdapter;
 import com.shenhua.idea.plugin.processviewer.etc.Constans;
+import com.shenhua.idea.plugin.processviewer.etc.BusProvider;
 import com.shenhua.idea.plugin.processviewer.etc.ProcessTableModel;
+import com.shenhua.idea.plugin.processviewer.etc.events.StopProcessEvent;
+import com.shenhua.idea.plugin.processviewer.etc.events.TableDatasEvent;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -34,16 +38,25 @@ public class TablePanel implements OnProcessCallback {
     private void configTable() {
         // config table
         mTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        // 表头不可拖动
+        mTable.getTableHeader().setReorderingAllowed(false);
+        // 表头初始高度
         mTable.getTableHeader().setPreferredSize(new Dimension(-1, 24));
         mTable.addMouseListener(new UserMouseAdapter() {
             @Override
             public void onSingleClicked(MouseEvent e) {
-//                    println("single click: x(${mTable.getSelectedColumn()}) y(${mTable.getSelectedRow()})");
+                if (mTable.getSelectedColumn() < 0) {
+                    return;
+                }
+                String pid = mTable.getValueAt(mTable.getSelectedRow(), 1).toString();
+                BusProvider.get().post(new StopProcessEvent(pid));
             }
 
             @Override
             public void onDoubleClicked(MouseEvent e) {
-//                    println("double click: x(${mTable.getSelectedRow()})")
+                if (mTable.getSelectedRow() < 0) {
+                    return;
+                }
             }
         });
     }
@@ -67,6 +80,8 @@ public class TablePanel implements OnProcessCallback {
         }
         model.setDataVector(datas, Constans.COLUMN_NAME);
         mTable.setModel(model);
+        BusProvider.get().register(this);
+        BusProvider.get().post(new TableDatasEvent(Constans.CLEAN_SHOW));
         sorter = new TableRowSorter<>(model);
         mTable.setRowSorter(sorter);
         setTableSize();
@@ -85,5 +100,16 @@ public class TablePanel implements OnProcessCallback {
 
     TableRowSorter<TableModel> getSorter() {
         return sorter;
+    }
+
+    @Subscribe
+    void cleanAll(TableDatasEvent event) {
+        // 由于关联两处同时订阅了事件,因此,清空table操作必须制定为特殊操作
+        if (event.getType() != Constans.CLEAN_CLEAN) {
+            return;
+        }
+        DefaultTableModel model = (DefaultTableModel) mTable.getModel();
+        model.setRowCount(0);
+        BusProvider.get().post(new TableDatasEvent(Constans.CLEAN_NOT_SHOW));
     }
 }

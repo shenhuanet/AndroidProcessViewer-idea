@@ -9,10 +9,4 @@ interface DeviceServer {
 
     void start();
 
-//    void getDevice(Project project, OnDevicesCallback callback)
-//
-//    void getProcess(Project project, String serId, OnProcessCallback callback)
-//
-//    void stopProcess(String serId, String pid, OnKillProcessCallback callback)
-
 }

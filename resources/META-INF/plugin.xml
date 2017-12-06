@@ -70,14 +70,6 @@
             </action>
         </group>
 
-        <group id="ProcessViewer.TopGroup" text="TopGroup" popup="false">
-            <action id="ProcessViewer.RefreshDevicesAction"
-                    class="com.shenhua.idea.plugin.processviewer.actions.RefreshDevicesAction"
-                    text="Refresh Devices"
-                    description="Refresh the online devices if possible"
-                    icon="/icons/ic_refresh_devices_16x16.png">
-            </action>
-        </group>
     </actions>
 
 </idea-plugin>

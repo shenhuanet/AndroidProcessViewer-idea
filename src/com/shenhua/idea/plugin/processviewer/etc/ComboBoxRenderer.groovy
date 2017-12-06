@@ -5,7 +5,8 @@ import com.android.tools.idea.ddms.DevicePropertyUtil
 import com.intellij.openapi.actionSystem.ActionToolbar
 import com.intellij.ui.ColoredListCellRenderer
 import com.intellij.ui.SimpleTextAttributes
-import com.shenhua.idea.plugin.processviewer.actions.RefreshAction
+import com.shenhua.idea.plugin.processviewer.etc.events.RefreshEvent
+import com.shenhua.idea.plugin.processviewer.etc.events.StopProcessEvent
 import org.jetbrains.annotations.NotNull
 
 import javax.swing.JList
@@ -27,9 +28,8 @@ class ComboBoxRenderer extends ColoredListCellRenderer<IDevice> {
     protected void customizeCellRenderer(
             @NotNull JList<? extends IDevice> jList, IDevice device, int index, boolean selected, boolean hasFocus) {
         if (device == null) {
-            ((RefreshAction) mToolbar.getActions().get(0)).setSerialNumber(null)
-//            mToolbar.getActions().get(1)
-//            mToolbar.getActions().get(2)
+            BusProvider.get().post(new RefreshEvent(null))
+            BusProvider.get().post(new StopProcessEvent(null))
             append("No Connected Device", SimpleTextAttributes.ERROR_ATTRIBUTES)
         } else {
             String name

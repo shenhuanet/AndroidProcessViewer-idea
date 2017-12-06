@@ -29,5 +29,9 @@ class Constans {
      * Table
      */
     public static final String[] COLUMN_NAME = ['user', 'pid', 'ppid', 'vSize', 'rss', 'wChan', 'name']
-    public static final int COLUMN_WIDTH = 150
+    public static final int COLUMN_WIDTH = 80
+
+    public static final int CLEAN_SHOW = 0
+    public static final int CLEAN_NOT_SHOW = 1
+    public static final int CLEAN_CLEAN = 2
 }

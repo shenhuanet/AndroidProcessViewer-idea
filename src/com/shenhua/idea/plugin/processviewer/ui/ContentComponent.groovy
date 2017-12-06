@@ -3,8 +3,6 @@ package com.shenhua.idea.plugin.processviewer.ui
 import com.intellij.execution.ExecutionManager
 import com.intellij.execution.ui.RunnerLayoutUi
 import com.intellij.execution.ui.layout.PlaceInGrid
-import com.intellij.openapi.Disposable
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.AbstractProjectComponent
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
