@@ -13,7 +13,7 @@ An Android-Studio plugin to quickly to get the running process and background se
 ## 功能介绍(TODO)
 - [x] 动态获取已连接的Android设备
 - [x] 支持刷新进程信息
-- [x] 如果Android设置已Root,则可kill该进程
+- [x] 如果Android设备已Root,则可kill该进程
 - [x] 支持列表信息动态过滤
 - [ ] 查看进程详细信息和关联进程信息
 
